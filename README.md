@@ -18,3 +18,13 @@ Add meta variables `FromDate` and `ToDate` to specify the range of date, like th
     */
 
 Then you use the Twig variables `{{ pages_filtered_by_date }}` and `{{ latest_date }}`.
+
+## Update History
+
+### 2014-10-02
+
+Optimize.
+
+### 2014-09-21
+
+First release.

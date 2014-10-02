@@ -71,18 +71,12 @@ class Pico_DateRangeFilter {
 	public function get_pages(&$pages, &$current_page, &$prev_page, &$next_page) {
 		if ($this->from_date != NULL && $this->to_date != NULL) {
 			foreach ($pages as $page) {
-				$file_url = substr($page['url'], strlen($this->base_url));
-				$file_name = CONTENT_DIR . $file_url . ".md";
-
-				if (file_exists($file_name)) {
-					$date = $this->get_meta_date(file_get_contents($file_name));
-					if ($date != null && $date != ''
-					&& ($this->from_date <= $date && $date <= $this->to_date)) {
-						$page['date'] = $date;
-						array_push($this->pages_filtered_by_date, $page);
-						if ($this->latest_date < $date) {
-							$this->latest_date = $date;
-						}
+				$date = $page['date'];
+				if ($date != null && $date != ''
+				&& ($this->from_date <= $date && $date <= $this->to_date)) {
+					array_push($this->pages_filtered_by_date, $page);
+					if ($this->latest_date < $date) {
+						$this->latest_date = $date;
 					}
 				}
 			}
@@ -103,18 +97,6 @@ class Pico_DateRangeFilter {
 	}
 
 	public function after_render(&$output) {
-	}
-
-	/*
-	 * Private functions
-	 */
-	private function get_meta_date($content) {
-		$date = NULL;
-		if (preg_match('/^[ \t\/*#@]*Date:(.*)$/mi', $content, $match) && $match[1]) {
-			$date = trim(preg_replace('/\s*(?:\*\/|\?>).*/', '', $match[1]));
-		}
-
-		return $date;
 	}
 }
 
